@@ -17,7 +17,7 @@
 #include "hal.h"
 
 /*===========================================================================*/
-/*	Prototypes des fonctions                                                 */
+/* Prototypes des fonctions.                                                 */
 /*===========================================================================*/
 void cubeInit(void);
 void demoCube(void);
