@@ -18,7 +18,6 @@
 
 static THD_WORKING_AREA(waThread1, 64);
 static THD_FUNCTION(Thread1, arg) {
-  uint8_t demoIndex = 0;
   (void)arg;
 
   chRegSetThreadName("demo");
