@@ -43,12 +43,12 @@ endif
 
 # If enable, this option arase the counter cycle after device programming.
 ifeq ($(USE_AVRDUDE_ERASE_COUNTER),)
-	USE_AVRDUDE_ERASE_COUNTER = no
+  USE_AVRDUDE_ERASE_COUNTER = no
 endif
 
 # If enable, this option perform a verification after device programming.
 ifeq ($(USE_AVRDUDE_NO_VERIFY),)
-	USE_AVRDUDE_NO_VERIFY = no
+  USE_AVRDUDE_NO_VERIFY = no
 endif
 
 # If enabled, this option increase the programming verbosity level.

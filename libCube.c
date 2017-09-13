@@ -1,29 +1,37 @@
 /**
  *
- * @file    cubeLib.c
+ * @file    libCube.c
  *
- * @brief   Led cube functions and demos.
+ * @brief   Led cube library.
  *
  * @author  Theodore Ateba, tf.ateba@gmail.com
  *
  * @date    03 January 2017
  *
- * @update  05 January 2017
  */
 
+/*==========================================================================*/
+/* Includes files.                                                          */
+/*==========================================================================*/
+
+/* Local files. */
 #include "libCube.h"
+
+/*==========================================================================*/
+/* Global variables.                                                        */
+/*==========================================================================*/
 
 static uint8_t demoIndex = 0;
 
-/*===========================================================================*/
-/* Les fonctions.                                                            */
-/*===========================================================================*/
+/*==========================================================================*/
+/* Functions.                                                               */
+/*==========================================================================*/
 
 /**
- * @fn      cubeInit
- * @brief   Initialize the pins used for the cube.
+ * @brief   Initialize the pins used for the led-cube.
  */
 void cubeInit(void) {
+
   int8_t i;
 
   for (i = 5; i >= 0; i--) {
@@ -36,7 +44,6 @@ void cubeInit(void) {
 }
 
 /**
- * @fn      padCtrl
  * @brief   Set/Clear a gpio pin.
  *
  * @param[in] port    the gpio pin port to control
@@ -45,6 +52,7 @@ void cubeInit(void) {
  */
 static void padCtrl(volatile avr_gpio_registers_t *port, uint8_t pin,
                     uint8_t value) {
+
   if (value == 0)
     palClearPad(port, pin);
   else if (value == 1)
@@ -54,12 +62,12 @@ static void padCtrl(volatile avr_gpio_registers_t *port, uint8_t pin,
 }
 
 /**
- * @fn      cubeOn
- * @brief   Turn on all the cube.
+ * @brief   Turn on all the leds on the cube.
  *
  * @param[in] tempo   the time to turn on the cube
  */
 static void cubeOn(uint16_t tempo) {
+
   int8_t i;
 
   for (i = 5; i >= 0; i--) {
@@ -74,12 +82,12 @@ static void cubeOn(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeOff
- * @brief   Turn off the cube
+ * @brief   Turn off all the led on the cube.
  *
  * @param[in] tempo   the time to turn on the cube
  */
 static void cubeOff(uint16_t tempo) {
+
   int8_t i;
 
   for (i = 5; i >= 0; i--) {
@@ -93,7 +101,13 @@ static void cubeOff(uint16_t tempo) {
   chThdSleepMilliseconds(tempo);
 }
 
+/**
+ * @brief   Facto is a function that help to turn on led one at time.
+ *
+ * @param[in] tempo   the time use between the control of two leds.
+ */
 static void facto(uint16_t tempo) {
+
   uint8_t i;
 
   for (i = 2; i <= 7; i++) {
@@ -107,7 +121,13 @@ static void facto(uint16_t tempo) {
   }
 }
 
+/**
+ * @brief   First demo function.
+ *
+ * @param[in] tempo   the time used in the demo.
+ */
 static void demo1(uint8_t tempo) {
+
   cubeOff(0);
   padCtrl(IOPORT2, 3, 1);
   padCtrl(IOPORT2, 4, 0);
@@ -128,13 +148,13 @@ static void demo1(uint8_t tempo) {
 }
 
 /**
- * @fn      lineWrite
- * @brief   piloter les Leds des plans du cube qui sont actifs.
+ * @brief   Control all leds of an actived layer.
  *
  * @param[in] lineState   buffer of line state
  * @param[in] lineSize    Size of the line state buffer
  */
 static void lineWrite( uint8_t *lineState, uint8_t lineSize) {
+
   uint8_t line = 0, pin;
 
   for (pin = 2; pin <= 7; pin++) {
@@ -150,15 +170,14 @@ static void lineWrite( uint8_t *lineState, uint8_t lineSize) {
   }
 }
 
-
 /**
- * @fn      layerWrite
- * @brief   Selection d'un des trois plans du cube.
+ * @brief   Selection of one of the tree layer of the cube.
  * 
  * @param[in] layerState  buffer of layer state
  * @param[in] layerSize   Size of the layer state buffer
  */
 static void layerWrite(uint8_t *layerState, uint8_t layerSize) {
+
   uint8_t layer = 2, pin;
 
   for (pin = 5; pin >= 3; pin--) {
@@ -169,24 +188,24 @@ static void layerWrite(uint8_t *layerState, uint8_t layerSize) {
 }
 
 /**
- * @fn      cubeTopOff
- * @brief   Eteindre le plan 1 du cube.
+ * @brief   Turn off the cube top layer.
  *
- * @param[in] tempo temps d'extinction du dessus du cube
+ * @param[in] tempo the time to trun off the top layer leds
  */
 static void cubeTopOff(uint16_t tempo) {
+
   palClearPad(IOPORT2, 3);
   chThdSleepMilliseconds(tempo);
 }
 
 /**
- * @fn      cubeTopOn
- * @brief   Allumer le plan 1 du cube.
+ * @brief   Turn on the cube top layer.
  * 
- * @param[in] tempo temps d'allumage du dessus du cube.
+ * @param[in] tempo   the time to turn on the top leyer leds
  */
 static void cubeTopOn(uint16_t tempo){
-  uint8_t plan[3] = {1,0,0}; // top , midle, Bottom
+
+  uint8_t plan[3] = {1,0,0}; /* top , midle, Bottom. */
   uint8_t lineState[9] = {1, 1, 1, 1,1, 1, 1, 1, 1};
 
 	layerWrite(plan, 3);
@@ -195,24 +214,24 @@ static void cubeTopOn(uint16_t tempo){
 }
 
 /**
- * @fn      cubeMidleOff
- * @brief   Eteindre le plan 2 du cube.
+ * @brief   Turn off the midle layer of the cube.
  *
- * @param[in] tempo   temps d'extinction du plan 2 du cube
+ * @param[in] tempo   the time to turn off the midle layer leds
  */
 static void cubeMidleOff(uint16_t tempo) {
+
   palClearPad(IOPORT2, 4);
   chThdSleepMilliseconds(tempo);
 }
 
 /**
- * @fn      cubeMidleOn
- * @brief   Allumer le Plan 2 du cube.
+ * @brief   Trun on the midle layer of the cube.
  *
- * @param[in] tempo   temps d'allumage du plan 2 du cube.
+ * @param[in] tempo   the time to turn on the midle layer leds
  */
 static void cubeMidleOn(uint16_t tempo) {
-  uint8_t plan[3] = {0,1,0}; // top , midle, Bottom
+
+  uint8_t plan[3] = {0,1,0}; /* top , midle, Bottom. */
   uint8_t lineState[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
 
   layerWrite(plan, 3);
@@ -221,24 +240,24 @@ static void cubeMidleOn(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeBottomOff
- * @brief   Eteindre le plan 3 du cube.
+ * @brief   Turn off the bottom layer of the cube.
  *
- * @param[in] tempo   temps d'extinction du plan 3 du cube
+ * @param[in] tempo   the time used to turn off the bottom layer leds
  */
 static void cubeBottomOff(uint16_t tempo) {
+
   palClearPad(IOPORT2, 5);
   chThdSleepMilliseconds(tempo);
 }
 
 /**
- * @fn      cubeBottomOn
- * @brief   Allumer le plan 3 du cube.
+ * @brief   Turn on the bottom layer of the cube.
  *
- * @param[in]	tempo   temps d'allumage du plan 3 du cube
+ * @param[in]	tempo   the time used to turn on the bottom leyer leds
  */
 static void cubeBottomOn(uint16_t tempo) {
-  uint8_t plan[3] = {0,0,1}; // top , midle, Bottom
+
+  uint8_t plan[3] = {0,0,1}; /* top , midle, Bottom. */
   uint8_t lineState[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1}; 
 
   layerWrite(plan, 3);
@@ -247,13 +266,13 @@ static void cubeBottomOn(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeBlink
- * @brief   Faire clignoter le cube de leds.
+ * @brief   Blink all leds of the cube.
  *
- * @param[in] tempo   le temps de clignotement en milli seconde
- * @param[in] nbr     le nombre de clignotement souhaite
+ * @param[in] tempo   the blinking time
+ * @param[in] nbr     the number of blink
  */
 static void cubeBlink(uint16_t tempo, uint8_t nbr) {
+
   int8_t i;
 
   for (i = nbr; i >= 0; i--) {
@@ -263,12 +282,12 @@ static void cubeBlink(uint16_t tempo, uint8_t nbr) {
 }
 
 /**
- * @fn      cubeCircularDemo
- * @brief   Faire une demonstareation d'alumage circulaire.
+ * @brief   Make a circular effect.
  *
- * @param[in] tempo   temps de l'effet de rotation
+ * @param[in] tempo   tempo for the rotation effect
  */
 static void cubeCircularDemo(uint16_t tempo) {
+
   int8_t i, j;
   uint8_t lineState[8][9] = { {1, 0, 0, 0, 0, 0, 0, 0, 0},
                               {0, 1, 0, 0, 0, 0, 0, 0, 0},
@@ -303,13 +322,13 @@ static void cubeCircularDemo(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeFace1On
- * @brief   Allumer la face numero 1 du cube.
+ * @brief   Turn on the first face of the cube.
  *
- * @param[in] tempo   temps d'allumage de la face 1 du cube
+ * @param[in] tempo   the time used to trun on the first face of the cube
  */
 static void cubeFace1On(uint16_t tempo) {
-  uint8_t plan[3] = {1,1,1}; // Bottom, midle, top
+
+  uint8_t plan[3] = {1,1,1}; /* Bottom, midle, top. */
   uint8_t lineState[9] = {1, 1, 1, 0, 0, 0, 0, 0, 0};
 
   layerWrite(plan, 3);
@@ -318,13 +337,13 @@ static void cubeFace1On(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeFace2On
- * @brief   Allumer la face numero 2 du cube.
+ * @brief   Turn on the second face of the cube.
  *
- * @param[in] tempo   temps d'allumage de la face 2 du cube
+ * @param[in] tempo   the time used to trun on the second face of the cube
  */
 static void cubeFace2On(uint16_t tempo) {
-  uint8_t plan[3] = {1,1,1}; // Bottom, midle, top
+
+  uint8_t plan[3] = {1,1,1}; /* Bottom, midle, top. */
   uint8_t lineState[9] = {1, 0, 0, 1, 0, 0, 1, 0, 0};
 
   layerWrite(plan, 3);
@@ -333,13 +352,13 @@ static void cubeFace2On(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeFace3On
- * @brief   Allumer la face numero 3 du cube.
+ * @brief   Turn on the third face of the cube.
  *
- * @param[in] tempo   temps d'allumage de la face 3 du cube.
+ * @param[in] tempo   the time used to trun on the third face of the cube
  */
 static void cubeFace3On(uint16_t tempo) {
-  uint8_t plan[3] = {1,1,1}; // Bottom, midle, top
+
+  uint8_t plan[3] = {1,1,1}; /* Bottom, midle, top. */
   uint8_t lineState[9] = {0, 0, 0, 0, 0, 0, 1, 1, 1};
 
   layerWrite(plan, 3);
@@ -348,13 +367,13 @@ static void cubeFace3On(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeFace4On
- * @brief   Allumer la face numero 4 du cube.
+ * @brief   Turn on the fourth face of the cube.
  *
- * @param[in] tempo   Operation delay
+ * @param[in] tempo   the time used to trun on the fourth face of the cube
  */
 static void cubeFace4On(uint16_t tempo) {
-  uint8_t plan[3] = {1,1,1}; // Bottom, midle, top
+
+  uint8_t plan[3] = {1,1,1}; /* Bottom, midle, top. */
   uint8_t lineState[9] = {0, 0, 1, 0, 0, 1, 0, 0, 1};
 
   layerWrite(plan, 3);
@@ -363,12 +382,12 @@ static void cubeFace4On(uint16_t tempo) {
 }
 
 /**
- * @fn      cubeAllFaceOn
- * @brief   Allumer toutes les faces du cube.
+ * @brief   Turn on all the face of the cube.
  *
- * @param[in] tempo Operation delay
+ * @param[in] tempo   the time used to turn on all the face of the cube
  */
 static void cubeAllFaceOn(uint16_t tempo) {
+
   cubeFace1On(tempo);
   cubeFace2On(tempo);
   cubeFace3On(tempo);
@@ -398,13 +417,13 @@ static void rotation(uint16_t tempo) {
 }
 
 /**
- * @fn      effect
- * @brief   Effet d'allumage du bas vers le haut et vis vers ca.
+ * @brief   This turn on the led from bottom to top.
  *
- * @param[in] tempo   temps  entre les transition de niveaux
- * @param[in] nbr     nobre de fois que l'on veut voir l'effet
+ * @param[in] tempo   the time between the the control of two leds
+ * @param[in] nbr     Number time we want to see the effect
  */
 static void effect(uint16_t tempo, uint8_t nbr) {
+
   uint8_t j;
 
   for (j = 0; j <= nbr; j++) {
@@ -416,12 +435,12 @@ static void effect(uint16_t tempo, uint8_t nbr) {
 }
 
 /**
- * @fn      shadowOn
- * @brief   Allumage aleatoire.
+ * @brief   Turn on all the led with a shadow effect.
  *
- * @param[in] tempo temps entre l'allumage de deux LEDs, en milli-seconde
+ * @param[in] tempo   the time between two led control
  */
 static void shadowOn(uint16_t tempo) {
+
   uint8_t i;
 
   for (i = 3; i <= 5; i++) {
@@ -440,12 +459,12 @@ static void shadowOn(uint16_t tempo) {
 }
 
 /**
- * @fn      shadowOff
- * @brief   turn off the cube aleatoire.
+ * @brief   Turn off all the led with a shadow effect.
  *
- * @param[in] tempo temps entre l'allumage de deux LEDs, en milli-seconde
+ * @param[in] tempo   the time between two led control
  */
 static void shadowOff(uint16_t tempo) {
+
   uint8_t i;
 
   for (i = 3; i <= 5; i++) {
@@ -463,12 +482,14 @@ static void shadowOff(uint16_t tempo) {
   }
 }
 
+/**
+ * @brief   This demo function call all the define cube functions.
+ */
 void demoCube(void) {
+
   register uint8_t i, nbr = 10;
 
   cubeOff(0);
-
-  //demoIndex = 12;
 
   if (demoIndex <= 12) {
     for (i = 0; i < nbr; i++) {

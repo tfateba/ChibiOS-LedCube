@@ -8,18 +8,18 @@
  *
  * @date    03 January 2017
  *
- * @update  05 January 2017
- *
  */
-#ifndef _LIBCUBE_H_
-#define _LIBCUBE_H_
+
+#ifndef LIBCUBE_H
+#define LIBCUBE_H
 
 #include "hal.h"
 
-/*===========================================================================*/
-/* Prototypes des fonctions.                                                 */
-/*===========================================================================*/
+/*==========================================================================*/
+/* Fonctions prototypes.                                                    */
+/*==========================================================================*/
+
 void cubeInit(void);
 void demoCube(void);
 
-#endif /* _LIBCUBE_H_ */
+#endif /* LIBCUBE_H */
