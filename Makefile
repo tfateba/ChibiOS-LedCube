@@ -87,7 +87,7 @@ CSRC =  $(KERNSRC)                      \
         $(PLATFORMSRC)                  \
         $(BOARDSRC)                     \
         $(CHIBIOS)/os/various/evtimer.c \
-        libCube.c                       \
+        ledcube.c                       \
         main.c
 
 # List C++ sources file here.
@@ -179,10 +179,10 @@ ULIBS =
 
 # TODO: Add the programmer for ATtiny, and for ATXmega.
 # AVR programmer.
-AVRDUDE_PROGRAMMER = wiring
+AVRDUDE_PROGRAMMER = arduino
 
 # AVR serial port.
-AVRDUDE_PORT = /dev/ttyUSB0
+AVRDUDE_PORT = /dev/ttyACM0
 
 AVRDUDE_WRITE_FLASH = -D -U flash:w:$(BUILDDIR)/$(PROJECT).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(BUILDDIR)/$(PROJECT).eep
