@@ -68,7 +68,7 @@ endif
 PROJECT = ch
 
 # Imported source files.
-CHIBIOS = ../ChibiOS_16.1.5
+CHIBIOS = ../../ChibiOS_16.1.5
 # HAL-OSAL files (optional).
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/hal/boards/ARDUINO_UNO/board.mk
