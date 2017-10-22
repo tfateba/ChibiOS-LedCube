@@ -2,19 +2,24 @@
  *
  * @file    main.c
  *
- * @brief   Main file of the application.
+ * @brief   Led cube main application source file.
  *
  * @author  Theodore Ateba, tf.ateba@gmail.com
  *
  * @date    03 January 2017
  *
- * @update  05 January 2017
- *
  */
 
+/*==========================================================================*/
+/* Includes files.                                                          */
+/*==========================================================================*/
+
+/* ChibiOS files. */
 #include "ch.h"
 #include "hal.h"
-#include "libCube.h"
+
+/* Project local files. */
+#include "ledcube.h"
 
 static THD_WORKING_AREA(waThread1, 64);
 static THD_FUNCTION(Thread1, arg) {
@@ -23,7 +28,7 @@ static THD_FUNCTION(Thread1, arg) {
   chRegSetThreadName("demo");
 
   while (true) {
-    demoCube();
+    ledCubeDemo();
   }
 }
 
@@ -45,7 +50,7 @@ int main(void) {
   /*
    * Initialization of the cube.
    */
-  cubeInit();
+  ledCubeInit();
 
   /*
    * Activates the serial driver 1 using the driver default configuration.
