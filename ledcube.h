@@ -1,8 +1,8 @@
 /**
  *
- * @file    cubeLib.h
+ * @file    ledcube.h
  *
- * @brief   Functions used to initialize an use the led cube.
+ * @brief   Led cube header file.
  *
  * @author  Theodore Ateba, tf.ateba@gmail.com
  *
@@ -10,16 +10,14 @@
  *
  */
 
-#ifndef LIBCUBE_H
-#define LIBCUBE_H
-
-#include "hal.h"
+#ifndef LEDCUBE_H
+#define LEDCUBE_H
 
 /*==========================================================================*/
 /* Fonctions prototypes.                                                    */
 /*==========================================================================*/
 
-void cubeInit(void);
-void demoCube(void);
+void ledCubeInit(void);
+void ledCubeDemo(void);
 
-#endif /* LIBCUBE_H */
+#endif /* LEDCUBE_H */
