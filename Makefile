@@ -69,6 +69,7 @@ PROJECT = ch
 
 # Imported source files.
 CHIBIOS = ../../ChibiOS_16.1.5
+DRIVERS = ../../drivers
 # HAL-OSAL files (optional).
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/hal/boards/ARDUINO_UNO/board.mk
@@ -78,6 +79,7 @@ include $(CHIBIOS)/os/hal/osal/rt/osal.mk
 include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/rt/ports/AVR/compilers/GCC/mk/port.mk
 # Other files.
+include $(DRIVERS)/ledcube/ledcube.mk
 
 # List C source files here. (C dependencies are automatically generated.)
 CSRC =  $(KERNSRC)                      \
@@ -87,15 +89,15 @@ CSRC =  $(KERNSRC)                      \
         $(PLATFORMSRC)                  \
         $(BOARDSRC)                     \
         $(CHIBIOS)/os/various/evtimer.c \
-        ledcube.c                       \
+        $(LEDCUBESRC)                   \
         main.c
 
 # List C++ sources file here.
 CPPSRC =
 
-INCDIR =  $(CHIBIOS)/os/license $(PORTINC) $(KERNINC)   \
-          $(HALINC) $(OSALINC) $(PLATFORMINC)           \
-          $(BOARDINC) $(CHIBIOS)/os/various
+INCDIR =  $(CHIBIOS)/os/license $(PORTINC) $(KERNINC)     \
+          $(HALINC) $(OSALINC) $(PLATFORMINC)             \
+          $(BOARDINC) $(CHIBIOS)/os/various $(LEDCUBEINC)
 
 #
 # Project, sources and paths.
